@@ -4,7 +4,7 @@ from chex import Array
 from flax import linen as nn
 
 from .layers import Attention, SpatialGatingUnit
-from .utils import Identity, PreNorm, Residual, Sequential, dropout_layers
+from .utils import Identity, PreNorm, Residual, Sequential
 
 
 class gMLPBlock(nn.Module):
@@ -44,7 +44,6 @@ class gMLP(nn.Module):
     num_tokens: Any = None
     ff_mult: int = 4
     attn_dim: Any = None
-    prob_survival: float = 1.0
 
     def setup(self):
         dim_ff = self.dim * self.ff_mult
@@ -77,10 +76,5 @@ class gMLP(nn.Module):
     @nn.compact
     def __call__(self, x) -> Array:
         x = self.to_embed(x)
-        layers = (
-            self.layers
-            if not self.training
-            else dropout_layers(self.layers, self.prob_survival)
-        )
-        out = Sequential(*layers)(x)
+        out = Sequential(self.layers)(x)
         return self.to_logits(out)
