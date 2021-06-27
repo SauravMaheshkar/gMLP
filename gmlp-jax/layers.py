@@ -2,9 +2,10 @@ from functools import partial
 from typing import Any
 
 import jax.numpy as jnp
+from chex import Array
 from flax import linen as nn
 
-__all__ = ["Attention", "SGU"]
+__all__ = ["Attention", "SpatialGatingUnit", "LayerNorm"]
 
 EPS = 1e-3
 ATTN_MASK_VALUE = -1e10
@@ -21,12 +22,12 @@ class Attention(nn.Module):
     dtype: Dtype = jnp.float32
 
     def setup(self):
-        self.scale = self.dim_head**-0.5
+        self.scale = self.dim_head ** -0.5
         self.to_qkv = nn.Dense(features=self.dim_head * 3, dtype=self.dtype)
         self.to_out = nn.Dense(features=self.dim_out, dtype=self.dtype)
 
     @nn.compact
-    def __call__(self, x):
+    def __call__(self, x) -> Array:
         n = x.shape[0]
 
         qkv = self.to_qkv(x)
@@ -42,7 +43,7 @@ class Attention(nn.Module):
         return self.to_out(out)
 
 
-class SGU(nn.Module):
+class SpatialGatingUnit(nn.Module):
 
     dim: int
     dim_out: int
@@ -54,7 +55,7 @@ class SGU(nn.Module):
         self.proj_out = nn.Dense(features=self.dim_out, dtype=self.dtype)
 
     @nn.compact
-    def __call__(self, x, gate_res=None):
+    def __call__(self, x, gate_res=None) -> Array:
         n = self.seq_len
 
         x, gate = jnp.split(x, 2, axis=-1)
