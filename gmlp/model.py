@@ -38,10 +38,10 @@ class gMLPBlock(nn.Module):
 
 class gMLP(nn.Module):
 
-    num_tokens: Any = None
     dim: int
     depth: int
     seq_len: int
+    num_tokens: Any = None
     ff_mult: int = 4
     attn_dim: Any = None
     prob_survival: float = 1.0
