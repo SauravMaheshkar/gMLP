@@ -26,7 +26,7 @@ readme = read("README.md")
 VERSION = find_version("gmlp-jax", "__init__.py")
 
 setup(
-    name="gmlp-jax",
+    name="gmlp_jax",
     version=VERSION,
     packages=find_packages(),
     url="https://github.com/SauravMaheshkar/gMLP",
