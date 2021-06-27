@@ -1,1 +1,1 @@
-# Flax implementation of gMLP from "Pay Attention to MLPs" 
+# Flax implementation of gMLP from "Pay Attention to MLPs"

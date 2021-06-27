@@ -8,8 +8,8 @@ from setuptools import find_packages, setup
 # From https://github.com/n2cholas/jax-resnet
 def read(*names, **kwargs):
     with io.open(
-        os.path.join(os.path.dirname(__file__), *names),
-        encoding=kwargs.get("encoding", "utf8"),
+            os.path.join(os.path.dirname(__file__), *names),
+            encoding=kwargs.get("encoding", "utf8"),
     ) as fp:
         return fp.read()
 
