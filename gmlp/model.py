@@ -68,11 +68,11 @@ class gMLP(nn.Module):
             for i in range(self.depth)
         ]
 
-        self.to_logits = [
+        self.to_logits = (
             Sequential(nn.LayerNorm(), nn.Dense(features=self.num_tokens))
             if self.num_tokens is not None
             else Identity()
-        ]
+        )
 
     @nn.compact
     def __call__(self, x) -> Array:
