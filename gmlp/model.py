@@ -2,8 +2,9 @@ from typing import Any
 
 from chex import Array
 from flax import linen as nn
-from layers import Attention, SpatialGatingUnit
-from utils import Identity, PreNorm, Residual, Sequential, dropout_layers
+
+from .layers import Attention, SpatialGatingUnit
+from .utils import Identity, PreNorm, Residual, Sequential, dropout_layers
 
 
 class gMLPBlock(nn.Module):
