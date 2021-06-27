@@ -16,6 +16,7 @@ class Sequential(nn.Module):
 
     layers: Sequence[nn.Module]
 
+    @nn.compact
     def __call__(self, x):
         for layer in self.layers:
             x = layer(x)
@@ -31,6 +32,7 @@ class Residual(nn.Module):
 
     layers: Sequence[nn.Module]
 
+    @nn.compact
     def __call__(self, x):
         for layer in self.layers:
             x = layer(x) + x
@@ -44,6 +46,7 @@ class PreNorm(nn.Module):
     def setup(self):
         self.norm = nn.LayerNorm()
 
+    @nn.compact
     def __call__(self, x):
         for layer in self.layers:
             x = self.norm(x)
@@ -52,6 +55,7 @@ class PreNorm(nn.Module):
 
 
 class Identity(nn.Module):
+    @nn.compact
     def __call__(self, x):
         return x
 
