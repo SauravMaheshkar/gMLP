@@ -1,7 +1,7 @@
 import flax.linen as nn
 
-from gmlp import gMLP
-from gmlp.utils import Identity, PreNorm, Residual, Sequential
+from gmlp_flax import gMLP
+from gmlp_flax.utils import Identity, PreNorm, Residual, Sequential
 
 
 def test_utils():

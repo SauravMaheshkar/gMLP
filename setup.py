@@ -26,7 +26,7 @@ readme = read("README.md")
 VERSION = find_version("gmlp", "__init__.py")
 
 setup(
-    name="gmlp",
+    name="gmlp-flax",
     version=VERSION,
     author="Saurav Maheshkar",
     author_email="sauravvmaheshkar@gmail.com",
