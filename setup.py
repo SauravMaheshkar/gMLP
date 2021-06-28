@@ -28,10 +28,19 @@ VERSION = find_version("gmlp", "__init__.py")
 setup(
     name="gmlp",
     version=VERSION,
-    packages=find_packages(),
+    author="Saurav Maheshkar",
+    author_email="sauravvmaheshkar@gmail.com",
     url="https://github.com/SauravMaheshkar/gMLP",
-    license="MIT",
-    install_requires=["einops>=0.3", "flax", "jax"],
+    description="Flax implementation of gMLP from Pay Attention to MLPs",
     long_description_content_type="text/markdown",
     long_description=readme,
+    license="MIT",
+    packages=find_packages(
+        exclude=(
+            "tests",
+            "tests.*",
+        )
+    ),
+    zip_safe=True,
+    install_requires=["einops>=0.3", "flax", "jax"],
 )
