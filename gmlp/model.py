@@ -15,7 +15,7 @@ class gMLPBlock(nn.Module):
     attn_dim: Any = None
 
     def setup(self):
-        self.proj_in = Sequential(nn.Dense(features=self.dim_ff), nn.gelu())
+        self.proj_in = nn.Dense(features=self.dim_ff)
         self.attn = (
             Attention(dim_head=self.attn_dim, dim_out=self.dim_ff // 2)
             if self.attn_dim is not None
@@ -31,6 +31,7 @@ class gMLPBlock(nn.Module):
         gate_res = self.attn(x) if self.attn is not None else None
 
         x = self.proj_in(x)
+        x = nn.gelu(x)
         x = self.sgu(x, gate_res=gate_res)
         x = self.proj_out(x)
         return x
@@ -55,20 +56,24 @@ class gMLP(nn.Module):
 
         self.layers = [
             Residual(
-                PreNorm(
-                    gMLPBlock(
-                        dim=self.dim,
-                        dim_ff=dim_ff,
-                        seq_len=self.seq_len,
-                        attn_dim=self.attn_dim,
+                [
+                    PreNorm(
+                        [
+                            gMLPBlock(
+                                dim=self.dim,
+                                dim_ff=dim_ff,
+                                seq_len=self.seq_len,
+                                attn_dim=self.attn_dim,
+                            )
+                        ]
                     )
-                )
+                ]
             )
             for i in range(self.depth)
         ]
 
         self.to_logits = (
-            Sequential(nn.LayerNorm(), nn.Dense(features=self.num_tokens))
+            Sequential([nn.LayerNorm(), nn.Dense(features=self.num_tokens)])
             if self.num_tokens is not None
             else Identity()
         )

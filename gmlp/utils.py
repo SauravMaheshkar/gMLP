@@ -1,18 +1,19 @@
-from typing import Sequence
+from typing import Sequence, Type
 
 from flax import linen as nn
+from flax.linen.module import Module
 
 __all__ = ["Sequential", "Residual", "PreNorm", "Identity"]
 
 
-class Sequential(nn.Module):
+class Sequential(Module):
     """
     Flax Module to act as a wrapper for creating Sequential Modules
     Attributes:
         layers: A Sequence of Flax Modules
     """
 
-    layers: Sequence[nn.Module]
+    layers: Sequence[Type[Module]]
 
     @nn.compact
     def __call__(self, x):
@@ -21,14 +22,14 @@ class Sequential(nn.Module):
         return x
 
 
-class Residual(nn.Module):
+class Residual(Module):
     """
     Flax Module to act as a wrapper for creating Residual Modules
     Attributes:
         layers: A Sequence of Flax Modules
     """
 
-    layers: Sequence[nn.Module]
+    layers: Sequence[Type[Module]]
 
     @nn.compact
     def __call__(self, x):
@@ -37,9 +38,9 @@ class Residual(nn.Module):
         return x
 
 
-class PreNorm(nn.Module):
+class PreNorm(Module):
 
-    layers: Sequence[nn.Module]
+    layers: Sequence[Type[Module]]
 
     def setup(self):
         self.norm = nn.LayerNorm()
@@ -52,7 +53,7 @@ class PreNorm(nn.Module):
         return x
 
 
-class Identity(nn.Module):
+class Identity(Module):
     @nn.compact
     def __call__(self, x):
         return x

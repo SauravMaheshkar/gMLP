@@ -4,6 +4,7 @@ from typing import Any
 import jax.numpy as jnp
 from chex import Array
 from flax import linen as nn
+from jax import random
 
 __all__ = ["Attention", "SpatialGatingUnit", "LayerNorm"]
 
@@ -12,7 +13,11 @@ ATTN_MASK_VALUE = -1e10
 
 Dtype = Any
 
-LayerNorm = partial(nn.LayerNorm, create_scale=True, create_offset=True, axis=-1)
+LayerNorm = partial(nn.LayerNorm)
+
+
+def uniform(key, scale, shape, dtype):
+    return random.uniform(key, shape, dtype) * scale
 
 
 class Attention(nn.Module):
@@ -51,27 +56,29 @@ class SpatialGatingUnit(nn.Module):
     dtype: Dtype = jnp.float32
 
     def setup(self):
-        self.norm = LayerNorm()
+        self.norm = LayerNorm(dtype=self.dtype)
         self.proj_out = nn.Dense(features=self.dim_out, dtype=self.dtype)
 
     @nn.compact
     def __call__(self, x, gate_res=None) -> Array:
-        n = self.seq_len
 
         x, gate = jnp.split(x, 2, axis=-1)
 
         gate = self.norm(gate)
+
+        """
+        # TODO: Causal Nature of SGU
+        n = self.seq_len
         init_scale = EPS / n
-        init_eps = nn.initializers.uniform(scale=init_scale, dtype=self.dtype)
-
-        weights = self.param("spatial_weights", init_eps, (n, n))
-        biases = self.param("spatial_biases", jnp.ones(), (n, 1))
-
+        weights = uniform(key = random.PRNGKey(0),
+            scale = init_scale, shape = (n,n),dtype = self.dtype)
+        biases = jnp.ones(shape = (n,n), dtype = self.dtype)
         mask = jnp.tril(jnp.ones((n, n)))
         weights = weights * mask
 
-        gate = jnp.einsum("n d, m n -> m d", gate, weights)
+        gate = np.einsum("n d, m n ->m d", gate, weights)
         gate += biases
+        """
 
         if gate_res is not None:
             gate += gate_res
