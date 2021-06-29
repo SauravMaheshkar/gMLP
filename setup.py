@@ -23,7 +23,7 @@ def find_version(*file_paths):
 
 
 readme = read("README.md")
-VERSION = find_version("gmlp", "__init__.py")
+VERSION = find_version("gmlp_flax", "__init__.py")
 
 setup(
     name="gmlp-flax",
