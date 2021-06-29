@@ -18,5 +18,5 @@ def test_utils():
 
 
 def test_model():
-    model = gMLP(num_tokens=20000, dim=512, depth=4, seq_len=1024)
+    model = gMLP(num_tokens=20000, dim=512, depth=4)
     assert isinstance(model, nn.Module)
