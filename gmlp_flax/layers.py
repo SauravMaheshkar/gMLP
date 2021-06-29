@@ -4,11 +4,9 @@ from typing import Any
 import jax.numpy as jnp
 from chex import Array
 from flax import linen as nn
-from jax import random
 
 __all__ = ["Attention", "SpatialGatingUnit", "LayerNorm"]
 
-EPS = 1e-3
 ATTN_MASK_VALUE = -1e10
 
 Dtype = Any
@@ -16,11 +14,15 @@ Dtype = Any
 LayerNorm = partial(nn.LayerNorm)
 
 
-def uniform(key, scale, shape, dtype):
-    return random.uniform(key, shape, dtype) * scale
-
-
 class Attention(nn.Module):
+    """
+    Flax Module for creating an Attention Block.
+
+    Attributes:
+        dim_out: No of output dimensions
+        dim_head: No of dimensions for the head
+        dtype: the dtype of the computation (default: float32)
+    """
 
     dim_out: int
     dim_head: int
@@ -49,10 +51,15 @@ class Attention(nn.Module):
 
 
 class SpatialGatingUnit(nn.Module):
+    """
+    Flax Module for creating a Spatial Gating Unit.
 
-    dim: int
+    Attributes:
+        dim_out: No of output dimensions
+        dtype: the dtype of the computation (default: float32)
+    """
+
     dim_out: int
-    seq_len: int
     dtype: Dtype = jnp.float32
 
     def setup(self):
@@ -66,19 +73,7 @@ class SpatialGatingUnit(nn.Module):
 
         gate = self.norm(gate)
 
-        """
         # TODO: Causal Nature of SGU
-        n = self.seq_len
-        init_scale = EPS / n
-        weights = uniform(key = random.PRNGKey(0),
-            scale = init_scale, shape = (n,n),dtype = self.dtype)
-        biases = jnp.ones(shape = (n,n), dtype = self.dtype)
-        mask = jnp.tril(jnp.ones((n, n)))
-        weights = weights * mask
-
-        gate = np.einsum("n d, m n ->m d", gate, weights)
-        gate += biases
-        """
 
         if gate_res is not None:
             gate += gate_res

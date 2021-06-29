@@ -39,6 +39,12 @@ class Residual(Module):
 
 
 class PreNorm(Module):
+    """
+    Flax Module to act as a wrapper for creating Pre Normalization Modules.
+    Applies Layer Normalization before each layer call.
+    Attributes:
+        layers: A Sequence of Flax Modules
+    """
 
     layers: Sequence[Type[Module]]
 
@@ -54,6 +60,10 @@ class PreNorm(Module):
 
 
 class Identity(Module):
+    """
+    Flax Module to act as Identity Operation.
+    """
+
     @nn.compact
     def __call__(self, x):
         return x
