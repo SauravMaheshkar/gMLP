@@ -2,7 +2,7 @@
 
 ![](https://github.com/SauravMaheshkar/gMLP/blob/main/assets/gMLP%20Banner.png?raw=true)
 
-It's no news that transformers have dominated the field of deep learning ever since 2017. But, Hanxiao Liu, Zihang Dai, David R. So and Quoc V. Le in their recent work titled ["Pay Attention to MLPs"](https://arxiv.org/abs/2105.08050) propose a new architecture **gMLP** (essentially MLPs with gating) that performs as well as Transformers in key language and vision applications. Based on the comparisons showen in the paper the authors show that self-attention is **not** critical for Vision Transformers !!, as gMLP can achieve the same accuracy, thus bringing into question the validity of Attention.
+It's no news that transformers have dominated the field of deep learning ever since 2017. But, Hanxiao Liu, Zihang Dai, David R. So and Quoc V. Le in their recent work titled ["Pay Attention to MLPs"](https://arxiv.org/abs/2105.08050) propose a new architecture **gMLP** (essentially MLPs with gating) that performs as well as Transformers in key language and vision applications. Based on the comparisons shown in the paper the authors show that self-attention is **not** critical for Vision Transformers !!, as gMLP can achieve the same accuracy, thus bringing into question the validity of Attention.
 
 This repository includes an implementation of gMLP written in [Flax](https://github.com/google/flax). Most of the codebase is inspired from [Phil Wang](https://github.com/lucidrains)'s implementations in [Pytorch](https://github.com/lucidrains/g-mlp-pytorch) and [Haiku](https://github.com/lucidrains/mlp-gpt-jax).
 
