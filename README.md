@@ -8,6 +8,20 @@ This repository includes an implementation of gMLP written in [Flax](https://git
 
 **NOTE: Causal Nature of Spatial Gating Unit hasn't been implemented yet**
 
+## Installation
+
+You can install this package from PyPI:
+
+```sh
+pip install gmlp-flax
+```
+
+Or directly from GitHub:
+
+```sh
+pip install --upgrade git+https://github.com/SauravMaheshkar/gMLP.git
+```
+
 ## Usage
 
 ```python
@@ -27,7 +41,7 @@ gMLP(num_tokens=20000, dim=512, depth=4).init(init_rngs,x)
 
 ### 1. Conda Approach
 
-```bash
+```sh
 conda env create --name <env-name> sauravmaheshkar/gmlp
 conda activate <env-name>
 ```
