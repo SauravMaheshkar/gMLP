@@ -23,6 +23,15 @@ init_rngs = {"params": random_key}
 gMLP(num_tokens=20000, dim=512, depth=4).init(init_rngs,x)
 ```
 
+## Development
+
+### 1. Conda Approach
+
+```bash
+conda env create --name <env-name> sauravmaheshkar/gmlp
+conda activate <env-name>
+```
+
 ## Citations
 
 ```bibtex
